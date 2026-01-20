@@ -3,37 +3,29 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                echo 'Stage: Checkout'
-                git branch: 'main',
-                    url: 'https://github.com/RAHUL-167/episode-8-jenkins-params.git'
-            }
-        }
-
         stage('Build') {
             steps {
-                echo 'Stage: Build'
+                echo 'Build stage'
                 bat '''
-                echo Build started > build.txt
+                echo Build completed > build.txt
                 '''
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Stage: Test'
+                echo 'Running unit tests'
                 bat '''
-                echo Tests passed > test-results.txt
+                powershell -ExecutionPolicy Bypass -File tests\\calculator.test.ps1
                 '''
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Stage: Deploy'
+                echo 'Deploy stage'
                 bat '''
-                echo Deployment done > deploy.txt
+                echo Deployment completed > deploy.txt
                 '''
             }
         }
@@ -41,11 +33,12 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline completed successfully'
+            echo 'Pipeline SUCCESS'
             archiveArtifacts artifacts: '*.txt', fingerprint: true
         }
+
         failure {
-            echo 'Pipeline failed'
+            echo 'Pipeline FAILED'
             archiveArtifacts artifacts: '*.txt', fingerprint: true
         }
     }
