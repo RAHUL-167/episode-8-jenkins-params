@@ -4,6 +4,6 @@ function Get-Interest {
         [double]$rate
     )
 
-    # ❌ BUG: wrong calculation
-    return ($amount * $rate)
+    # ❌ WRONG: divide instead of multiply
+    return ($amount / $rate)
 }
