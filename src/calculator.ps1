@@ -4,6 +4,5 @@ function Get-Interest {
         [double]$rate
     )
 
-    # ❌ WRONG: divide instead of multiply
-    return ($amount / $rate)
+    return [Math]::Round($amount * $rate, 2)
 }
